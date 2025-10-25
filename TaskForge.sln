@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34714.143
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskForge.API", "TaskForge.API\TaskForge.API.csproj", "{9855BDE5-F468-40C1-8CA3-C84145F0336A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskForge.API", "TaskForge.API\TaskForge.API.csproj", "{9855BDE5-F468-40C1-8CA3-C84145F0336A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskForge.Domain", "TaskForge.Domain\TaskForge.Domain.csproj", "{F452A082-9895-4476-ADFE-DF83CB1EF806}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskForge.Domain", "TaskForge.Domain\TaskForge.Domain.csproj", "{F452A082-9895-4476-ADFE-DF83CB1EF806}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskForge.Application", "TaskForge.Application\TaskForge.Application.csproj", "{499BE1BF-571D-4F8C-AAE0-AF0C3D65A997}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskForge.Application", "TaskForge.Application\TaskForge.Application.csproj", "{499BE1BF-571D-4F8C-AAE0-AF0C3D65A997}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskForge.Infrastructure", "TaskForge.Infrastructure\TaskForge.Infrastructure.csproj", "{82AEB60C-CF1A-4AB0-9DB3-3244F97AF630}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskForge.Infrastructure", "TaskForge.Infrastructure\TaskForge.Infrastructure.csproj", "{82AEB60C-CF1A-4AB0-9DB3-3244F97AF630}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskForge.Persistence", "TaskForge.Persistence\TaskForge.Persistence.csproj", "{ACE51F53-7E49-4D6E-A699-B5E9C25101A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskForge.Sandbox", "TaskForge.Sandbox\TaskForge.Sandbox.csproj", "{A580BA7B-26DD-4F04-BD93-BD238FCDDCF4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{82AEB60C-CF1A-4AB0-9DB3-3244F97AF630}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{82AEB60C-CF1A-4AB0-9DB3-3244F97AF630}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{82AEB60C-CF1A-4AB0-9DB3-3244F97AF630}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ACE51F53-7E49-4D6E-A699-B5E9C25101A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ACE51F53-7E49-4D6E-A699-B5E9C25101A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ACE51F53-7E49-4D6E-A699-B5E9C25101A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ACE51F53-7E49-4D6E-A699-B5E9C25101A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A580BA7B-26DD-4F04-BD93-BD238FCDDCF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A580BA7B-26DD-4F04-BD93-BD238FCDDCF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A580BA7B-26DD-4F04-BD93-BD238FCDDCF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A580BA7B-26DD-4F04-BD93-BD238FCDDCF4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
