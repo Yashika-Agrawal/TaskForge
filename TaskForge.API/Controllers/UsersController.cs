@@ -9,6 +9,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using TaskForge.Application.DTOs;
+using TaskForge.Application.Interfaces.Repositories;
 using TaskForge.Domain.Entities;
 using TaskForge.Infrastructure.Persistence;
 
@@ -23,14 +24,16 @@ namespace TaskForge.API.Controllers
         private readonly TaskForgeDbContext _dbContext;
         private readonly IMapper _mapper;
         private readonly IPasswordHasher<User> _passwordHasher;
+        private readonly IUserRepository _userRepository;
         // _config lets you read things from appsettings.json(like JWT secret, issuer, audience).
         private readonly IConfiguration _config;
-        public UsersController(TaskForgeDbContext dbContext, IMapper mapper, IPasswordHasher<User> passwordHasher, IConfiguration config)
+        public UsersController(TaskForgeDbContext dbContext, IMapper mapper, IPasswordHasher<User> passwordHasher, IConfiguration config, IUserRepository userRepository)
         {
             _dbContext = dbContext;
             _mapper = mapper;
             _passwordHasher = passwordHasher;
             _config = config;
+            _userRepository = userRepository;
         }
         [AllowAnonymous]
         [HttpPost("register")]
@@ -102,6 +105,19 @@ namespace TaskForge.API.Controllers
                 return Ok(new {token= jwtTokenString, user = _mapper.Map<UserDto>(user) });
             }
         }
+
+        [HttpGet("{userId}/roles")]
+        public async Task<IActionResult> GetRolesForUser( Guid userId)
+        {
+            var user = await _dbContext.Users.FindAsync(userId);
+            if(user==null)
+            {
+                return NotFound("User not found with the given userId");
+            }
+            var roles= await _userRepository.GetRolesForUserAsync(userId);
+            return Ok(roles);
+        }
+
 
 
     }

@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using TaskForge.Application.Interfaces.Repositories;
 using TaskForge.Application.Mappings;
 using TaskForge.Domain.Entities;
 using TaskForge.Infrastructure.Persistence;
+using TaskForge.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +20,7 @@ builder.Services.AddDbContext<TaskForgeDbContext>(options =>
 
 // DI
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
-
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 // AutoMapper
 var config = new MapperConfiguration(cfg =>
 {

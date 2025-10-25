@@ -8,14 +8,19 @@ namespace TaskForge.Infrastructure.Repositories
     public class UserRepository : IUserRepository
     {
         private readonly TaskForgeDbContext _dbContext;
-        public async Task<List<string>?> GetRolesForUserAsync(User user)
+
+        public UserRepository(TaskForgeDbContext dbContext)
         {
-            if(user == null || user.Id == Guid.Empty)
+            _dbContext = dbContext;
+        }
+        public async Task<List<string>?> GetRolesForUserAsync(Guid userId)
+        {
+            if(userId == Guid.Empty)
             { 
                 return null;
             }
             var roleNames = await _dbContext.UserRoles
-                .Where(u => u.UserId == user.Id)
+                .Where(u => u.UserId == userId)
                 .Include(ur => ur.Role)
                 .Select(r => r.Role.Name)
                 .ToListAsync();
