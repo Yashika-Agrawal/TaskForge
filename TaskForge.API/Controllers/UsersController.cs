@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.VisualBasic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -42,20 +41,38 @@ namespace TaskForge.API.Controllers
             //anyasync is used to find atleast one entry if found then true otherwise false
             if(await _dbContext.Users.AnyAsync(u => u.UserName == registerDto.UserName ))
             {
-                return BadRequest("Email already registered");
+                return BadRequest("User name already exists");
+            }
+            if (await _dbContext.Users.AnyAsync(u => u.Email == registerDto.Email))
+            {
+                return BadRequest("Email already exists ");
             }
             var userEntity = _mapper.Map<User>(registerDto);
             userEntity.PasswordHash = _passwordHasher.HashPassword(userEntity, registerDto.Password);
             _dbContext.Users.Add(userEntity);
             await _dbContext.SaveChangesAsync();
+
+            //Assign default role user to newly registered user
+            var defaultRole = _dbContext.Roles.FirstOrDefault(r => r.Name == "User");
+            if(defaultRole != null)
+            {
+                var userRole = new UserRole
+                {
+                    UserId = userEntity.Id,
+                    RoleId = defaultRole.Id
+                };
+                _dbContext.UserRoles.Add(userRole);
+                await _dbContext.SaveChangesAsync();
+            }
             return Ok(_mapper.Map<UserDto>(userEntity));
         }
         [AllowAnonymous]
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
-           
             var user = await _dbContext.Users
+                .Include(ur=>ur.UserRoles)
+                .ThenInclude(r=>r.Role)
                 .FirstOrDefaultAsync(u => u.UserName == loginDto.UserName || u.Email == loginDto.UserName);
 
             if (user == null)
@@ -72,8 +89,8 @@ namespace TaskForge.API.Controllers
             {
                 var claims = new List<Claim>
                 {
-                    new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                    new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
+                    new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                    new(JwtRegisteredClaimNames.UniqueName, user.UserName),
                
                 };
                 // For each role assigned to the user, add a Role claim
@@ -118,7 +135,27 @@ namespace TaskForge.API.Controllers
             return Ok(roles);
         }
 
+        [Authorize(Roles = "Admin")]
+        [HttpGet("all-users")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var users = await _dbContext.Users
+            .Include(u => u.UserRoles)
+                .ThenInclude(ur => ur.Role)
+            .ToListAsync();
+            var usersDto = _mapper.Map<List<UserDto>>(users);
+            return Ok(usersDto);
+        }
+        [HttpPost("{userId}/assign-role/{roleId}")]
+        public async Task<IActionResult> AssignRole(Guid userId, Guid roleId)
+        {
+            var success = await _userRepository.AssignRoleToUserAsync(userId, roleId);
 
+            if (!success)
+                return BadRequest("Failed to assign role to user.");
+
+            return Ok("Role assigned successfully.");
+        }
 
     }
 }

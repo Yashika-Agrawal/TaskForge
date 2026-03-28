@@ -104,5 +104,12 @@ if (app.Environment.IsDevelopment())
 // Controllers
 app.MapControllers();
 
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<TaskForgeDbContext>();
+    DbSeeder.Seed(db);
+}
+
+
 // Run
 app.Run();

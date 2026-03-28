@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TaskForge.Domain.Enums
+namespace TaskForge.Application.DTOs
 {
-    public enum Role
+    public class AssignRoleDto
     {
-       Admin=0,
-       User=1
+        public Guid RoleId { get; set; }
     }
 }

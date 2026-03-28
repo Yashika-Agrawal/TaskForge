@@ -9,6 +9,7 @@ namespace TaskForge.Domain.Entities
     // Join entity for User <-> Role many-to-many relationship
     public class UserRole
     {
+        public Guid Id { get; set; } = Guid.NewGuid(); //Surrogate pkey
         //UserId is a foreign key → points to a specific row in the Users table.
         public Guid UserId { get; set; }
         //User is the navigation property →  load the actual User object.

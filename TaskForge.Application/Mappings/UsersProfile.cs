@@ -1,9 +1,4 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TaskForge.Application.DTOs;
 using TaskForge.Domain.Entities;
 
@@ -16,7 +11,9 @@ namespace TaskForge.Application.Mappings
             CreateMap<RegisterUserDto, User>()
                 .ForMember(dest => dest.PasswordHash, opt => opt.MapFrom(src => src.Password)); //RegisterUserDto to User
 
-            CreateMap<User, UserDto>(); // User to user dto
+            CreateMap<User, UserDto>() //dest is UserDto
+                .ForMember(dest => dest.Roles, 
+                opt => opt.MapFrom(src => src.UserRoles.Select(ur => ur.Role)));
         }
     }
 }
